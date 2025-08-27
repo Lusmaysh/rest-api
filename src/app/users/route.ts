@@ -1,6 +1,7 @@
 import path from 'path';
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
+import { create } from 'domain';
 
 export async function GET(request: Request) {
     try {
@@ -20,16 +21,35 @@ export async function GET(request: Request) {
 }
  
 export async function POST(request: Request) {
-  // Parse the request body
   const body = await request.json();
-  const { name } = body;
- 
-  // e.g. Insert new user into your DB
-  const newUser = { id: Date.now(), name };
-  const filePath = path.join(process.cwd(), 'data', 'users.json'); 
-  // JSON.stringify(data, null, 2) untuk format JSON yang rapi (pretty print)
-  await fs.writeFile(filePath, JSON.stringify(newUser, null, 2), 'utf8');
- 
+  const { name, email, role } = body;
+  
+  const now = new Date().toISOString();
+  const newUser = { 
+    id: Date.now(), 
+    name, 
+    email,
+    role,
+    created_at: now,
+    updated_at: now 
+  };
+  const filePath = path.join(process.cwd(), 'data', 'users.json');
+
+  // Baca data lama
+  let users: any[] = [];
+  try {
+    const fileContents = await fs.readFile(filePath, 'utf8');
+    users = JSON.parse(fileContents);
+    if (!Array.isArray(users)) users = [];
+  } catch (error) {
+    // Jika file belum ada atau error, mulai dengan array kosong
+    users = [];
+  }
+
+  users.push(newUser);
+
+  await fs.writeFile(filePath, JSON.stringify(users, null, 2), 'utf8');
+
   return new Response(JSON.stringify(newUser), {
     status: 201,
     headers: { 'Content-Type': 'application/json' }

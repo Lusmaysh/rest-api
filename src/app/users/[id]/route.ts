@@ -7,6 +7,8 @@ interface User {
   name: string;
   email: string;
   role: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 async function getUserData(): Promise<User[]> {
@@ -17,7 +19,6 @@ async function getUserData(): Promise<User[]> {
 
 async function saveUserData(data: User[]) {
   const filePath = path.join(process.cwd(), 'data', 'users.json');
-  // JSON.stringify(data, null, 2) untuk format JSON yang rapi (pretty print)
   await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 
@@ -32,13 +33,8 @@ export async function GET(
 
     if (!user) {
       return NextResponse.json({ message: `User dengan ID ${id} tidak ditemukan` }, { status: 404 });
-      // return Response.json({ message: `User dengan ID ${id} tidak ditemukan` }, { status: 404 });
     }
     return NextResponse.json(user, { status: 200 });
-    // return new Response(JSON.stringify(user), {
-    //     status: 200,
-    //     headers: { 'Content-Type': 'application/json' }
-    // });
     
   } catch (error) {
     console.error('Error reading users.json:', error);
@@ -50,11 +46,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const id = (await params).id;
-  // // e.g. Delete user with ID `id` in DB
-  // return new Response(null, { status: 204 });
   try {
-    // const { id } = params;
+    const id = (await params).id;
     const allUsers = await getUserData();
 
     // Cek apakah user dengan ID tersebut ada

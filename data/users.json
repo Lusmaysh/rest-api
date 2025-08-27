@@ -1,18 +1,18 @@
 [
-    {
-        "id": 1,
-        "name": "John Doe",
-        "email": "john@example.com",
-        "avatar": "https://randomuser.me/api/portraits/men/1.jpg",
-        "role": "admin",
-        "joined": "2022-01-15"
-    },
-    {
-        "id": 2,
-        "name": "Jane Smith",
-        "email": "jane@example.com",
-        "avatar": "https://randomuser.me/api/portraits/women/2.jpg",
-        "role": "user",
-        "joined": "2023-03-22"
-    }
+  {
+    "id": 1756295307408,
+    "name": "Janda",
+    "email": "test@test",
+    "role": "user",
+    "created_at": "2025-08-27T11:48:27.408Z",
+    "updated_at": "2025-08-27T11:48:27.408Z"
+  },
+  {
+    "id": 1756295473539,
+    "name": "admin",
+    "email": "admin@gmail.com",
+    "role": "admin",
+    "created_at": "2025-08-27T11:51:13.539Z",
+    "updated_at": "2025-08-27T11:51:13.539Z"
+  }
 ]
